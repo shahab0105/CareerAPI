@@ -9,7 +9,10 @@ export class UserService {
   constructor(private prisma: PrismaService){}
 
   create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({ data: createUserDto as User});
+    return this.prisma.user.create({ data: {
+        email: "Seconduser@gmail.com",
+        name: "Tail block"
+      } as User});
   }
 
   findAll() {
