@@ -18,10 +18,46 @@ model User {
   id Int @id @default(autoincrement())
   email String @unique
   name String
+  
+  resumes Resume[]
+  applications Application[]
+
 }
 
-model JobPost {
-  id Int @id @default(autoincrement())
+model Job {
+  id String @id @default(uuid())
   title String 
-  description String
+  company String
+  source String
+  url String
+  tags String[] // skills, keywords
+  createdAt DateTime @default(now())
+  description String?
+
+  applications Application[]
+}
+
+model Resume {
+  id String @id @default(uuid())
+  userId Int
+  fileUrl String
+  score Float?
+  feedback String?
+  createAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  applications Application[]
+}
+
+model Application {
+  id String @id @default(uuid())
+  userId Int
+  jobId String
+  resumeId String
+  status String
+  appliedAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
+  resume Resume @relation(fields: [resumeId], references: [id])
+  job Job @relation(fields: [jobId], references: [id])
 }
